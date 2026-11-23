@@ -2,5 +2,20 @@
 // 函式名稱一樣叫 recent7，輸入、輸出的格式跟 recent7.js 一樣（見 README.md）。
 
 function recent7(records, today) {
-  throw new Error('還沒做');
+  const end = new Date(`${today}T00:00:00Z`);
+  const start = new Date(end);
+  start.setUTCDate(start.getUTCDate() - 6);
+
+  const firstDay = start.toISOString().slice(0, 10);
+  let minutes = 0;
+  let count = 0;
+
+  for (const record of records) {
+    if (record.log_date >= firstDay && record.log_date <= today) {
+      count += 1;
+      if (typeof record.minutes === 'number') minutes += record.minutes;
+    }
+  }
+
+  return { minutes, count };
 }
