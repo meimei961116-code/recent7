@@ -5,14 +5,21 @@ function recent7(records, today) {
 
   var minutes = 0;
   var count = 0;
+  var days = 0;
+  var countedDates = Object.create(null);
 
   records.forEach(function (record) {
-    if (record.log_date < firstDay || record.log_date > today) return;
+    if (record.log_date === undefined || record.log_date < firstDay || record.log_date > today) return;
     if (record.minutes === undefined) return;
 
     count += 1;
     if (record.minutes !== null) minutes += record.minutes;
+
+    if (!countedDates[record.log_date]) {
+      countedDates[record.log_date] = true;
+      days += 1;
+    }
   });
 
-  return { minutes: minutes, count: count };
+  return { minutes: minutes, count: count, days: days };
 }
